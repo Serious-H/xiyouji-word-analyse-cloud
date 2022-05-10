@@ -279,5 +279,5 @@ df_wsd.to_csv('clean2.csv',encoding="utf-8")  #把数据存入一个csv文件
  2.替换C:\ProgramData\Anaconda3\Lib\site-packages\pynlpir\Data\NLPIR.user
 
 ### 3.运行new_fenci.py文件
-
+代码，相关图片和txt文件都在xiyouji-project文件夹里。
 
