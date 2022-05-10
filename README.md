@@ -1,5 +1,5 @@
-#用pynlpir对《西游记》词频分析并生成词云
-##背景
+# 用pynlpir对《西游记》词频分析并生成词云
+## 背景
 词频分析，生成词云，其实我在一门课上刚刚学过，老师用jupyter notebook带着做了一遍。
 
 在课上老师用的文本数据是一个比较小的20几K的文本。后来老师让对《西游记》做词频分析。《西游记》大小是1.9M
@@ -10,9 +10,9 @@
 
 **运行代码直接看四、项目运行步骤，前面是我的一些笔记和自言自语。**
 
-###一、具体代码实现
+## 一、具体代码实现
 先说一下最后运行成功的完整代码实现。
-####1.导入相关包
+### 1.导入相关包
 ```
 import pynlpir  #分词工具pynlpir
 from wordcloud import WordCloud #是优秀的词云展示第三方库
@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt  #Python下著名绘图库
 
 #上面这些包如果没有安装，运行会报错提醒，安装过程见本文档最下面第四部分 项目运行步骤。
 ```
-####2.读入文本和定义变量
+### 2.读入文本和定义变量
 ```
 pynlpir.open()        #打开分词器
 p = open(r'《西游记》.txt', 'r', encoding = 'utf-8')     #读入《西游记》文本
@@ -46,7 +46,7 @@ pynlpir.nlpir.AddUserWord('玄奘'.encode('utf8'),'noun')
 pynlpir.nlpir.AddUserWord('沙僧'.encode('utf8'),'noun')
 pynlpir.nlpir.AddUserWord('悟净'.encode('utf8'),'noun')
 ```
-####3.开始分词，词频统计
+### 3.开始分词，词频统计
 ```
 #逐行分词 显示词性
 for line in p.readlines():
@@ -68,11 +68,11 @@ items.sort(key=lambda x:x[1],reverse = True)
 #这时items里就是按词频排序好的分词结果，每个元素格式为('行者,名词', 3621)     
 #print(items[:20])
 ```
-####4.生成词云图像
+### 4.生成词云图像
 ```
 font_wc=r'C:\Windows\Fonts\STXINGKA.TTF' 
 mytext=' '.join(fenci_word)   
-bg_pic=np.array(Image.open('E:/NLP_workspace/NLP_study_demo/wukong4.png'))
+bg_pic=np.array(Image.open('wukong4.png'))
 wc=WordCloud(font_path=font_wc,#设置字体格式
 max_words=500,   #词云显示的最大词数
 max_font_size=200,   #最大字体
@@ -82,16 +82,16 @@ scale=15.5   #设置图像清晰度，只在保存时起作用，显示时不起
 )
 #生成词云
 wc.generate(mytext)   #设置文本 mytext为上面分好词的文本fenci_word
-wc.to_file("E:/NLP_workspace/NLP_study_demo/wk1.png")   #将生成的词云图像保存到本地
+wc.to_file("wk1.png")   #将生成的词云图像保存到本地
 #显示图像
 plt.imshow(wc,interpolation='bilinear')
 plt.axis('off')   # 关掉图像的坐标
 plt.show()
 ```
-####5.运行结果
+### 5.运行结果
 ![wukong](wk1.png)
 
-###二、曲折的探索过程
+## 二、曲折的探索过程
 一开始，我打开 jupyter notebook 找到上课使用的代码，将读取的文本修改为《西游记》，可以正常读取，但我尝试segment分词的时候，
 ```
 #测试
@@ -146,16 +146,19 @@ plt.imshow(wc)
 plt.axis('off')
 ```
 但是运行是总是报一些错比如：
+
 1.pilmode="RGB" DecompressionBombWarning: Image size (160487000 pixels) exceed
 2.numpy.core._exceptions.MemoryError: Unable to allocate 153. MiB for an array
+
 **原因**：一开始我以为是图片有问题，或者文本量太多。后来发现是因为读取背景图片这行代码的问题，具体为什么不知道。。。
+
 **解决方法**：改用Image读取背景图片。如下：
 ```
 #bg_pic=imread('E:/NLP_workspace/bg.jpg', pilmode="RGB") 改为
 bg_pic=np.array(Image.open('E:/NLP_workspace/NLP_study_demo/wukong4.png'))
 ```
 修改后成功运行。
-###三、学到的知识
+## 三、学到的知识
 1.wordclund参数意义
 ```
 font_path : string  #字体路径，需要展现什么字体就把该字体路径+后缀名写上，如：font_path = '黑体.ttf'
@@ -260,14 +263,14 @@ df_wsd.to_csv('clean2.csv',encoding="utf-8")  #把数据存入一个csv文件
 后来有个CSDN博客给了很大帮助，我就是用的他的思路。
 [python pynlpir分词及词频统计](https://blog.csdn.net/H_lukong/article/details/104369544)
 
-###四、项目运行步骤
-####1.下载安装相关包
+## 四、项目运行步骤
+### 1.下载安装相关包
 在Anaconda 的命令行界面输入：
    Pip install pynlpir –i https://pypi.tuna.tsinghua.edu.cn/simple
    Pip install wordcloud –i https://pypi.tuna.tsinghua.edu.cn/simple
    Pip install opencv_Python –i https://pypi.tuna.tsinghua.edu.cn/simple
 
-####2.安装成功后要替换NLPIR.user文件，不替换的话打开分词器的时候会报错：
+### 2.安装成功后要替换NLPIR.user文件，不替换的话打开分词器的时候会报错：
    ![wukong](err_info.png)
 
  替换步骤如下：
@@ -275,6 +278,6 @@ df_wsd.to_csv('clean2.csv',encoding="utf-8")  #把数据存入一个csv文件
  [GitHub项目地址](https://github.com/NLPIR-team/NLPIR/tree/master/License/license%20for%20a%20month/NLPIR-ICTCLAS%E5%88%86%E8%AF%8D%E7%B3%BB%E7%BB%9F%E6%8E%88%E6%9D%83)
  2.替换C:\ProgramData\Anaconda3\Lib\site-packages\pynlpir\Data\NLPIR.user
 
-####3.运行new_fenci.py文件
+### 3.运行new_fenci.py文件
 
 
